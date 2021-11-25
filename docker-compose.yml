@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+  api:
+    container_name: crud-api
+    command: sh -c "npm install && npm run dev"
+    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - "./.env"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/app
+    networks:
+      - localnet
+
+  db:
+    container_name: mysql-db
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "database"
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: '172.21.0.4/24'
