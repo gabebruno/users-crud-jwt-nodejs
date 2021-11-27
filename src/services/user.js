@@ -9,14 +9,20 @@ class UserService {
     async find(inactive) {
 
         if (inactive == 'true') {
-            return await this.user.findAll({
+            let user = await this.user.findAll({
                 where: {
                     deletedAt: {[Op.not]: null}
                 },
                 paranoid: false});
+
+            delete user.password;
+            return user;
         }
 
-        return await this.user.findAll();
+        let user = await this.user.findAll();
+        delete user.password;
+
+        return user;
     }
 
     async get(id) {
@@ -24,7 +30,7 @@ class UserService {
     }
 
     async create(userData) {
-        const user = await this.user.findOne({
+        let user = await this.user.findOne({
             where: { email: userData.email },
             paranoid: false
         });
@@ -35,7 +41,10 @@ class UserService {
 
         userData.password = await bcrypt.hash(userData.password, 10);
 
-        return await this.user.create(userData);
+        user = await this.user.create(userData);
+        delete user.password;
+
+        return user;
     }
 
     async update(id, userData) {
@@ -54,11 +63,24 @@ class UserService {
     }
 
     async destroy(id) {
+        if (!(await this.get(id)))
+        {
+            throw new Error('User not found')
+        }
+
         return await this.user.destroy({ where: { id : id } });
     }
 
     async restore(id) {
-        return await this.user.restore({ where: { id : id } });
+        const user = await this.user.findOne({ where: {id : id}, paranoid: false });
+
+        user.setDataValue('deletedAt', null);
+
+        if(!user.save({paranoid: false})) {
+            throw new Error('User not found!');
+        };
+
+        return user;
     }
 }
 

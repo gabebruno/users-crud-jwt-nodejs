@@ -78,6 +78,18 @@ router.post('/', auth,
         }
 });
 
+router.post('/restore/:id', auth,
+    async (req, res) => {
+        try {
+            const restoredUser = await userService.restore(req.params.id);
+
+            res.status(201).send(restoredUser);
+        } catch(erro) {
+
+            res.status(400).send(erro.message);
+        }
+});
+
 router.put('/:id', auth,
     check('telefone').if(body('telefone').exists())
         .trim()
