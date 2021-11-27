@@ -23,6 +23,7 @@ router.post('/api/login',
                 email: email
             }
         });
+        console.log(email)
 
         if(!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).send('Invalid credentials');
