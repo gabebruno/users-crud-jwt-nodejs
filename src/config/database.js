@@ -1,5 +1,5 @@
-const dotEnv = require('dotenv'); //importa o dotenv
-dotEnv.config(); //lê o dotenv
+const dotEnv = require('dotenv');
+dotEnv.config();
 
 module.exports = {
   dialect: process.env.DB_DIALECT,

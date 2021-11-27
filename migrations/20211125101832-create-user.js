@@ -10,11 +10,11 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING
       },
       phone: {
         allowNull: false,
-        type: Sequelize.STRING(14)
+        type: Sequelize.STRING
       },
       email: {
         allowNull: false,
@@ -22,14 +22,11 @@ module.exports = {
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING
       },
       birthday: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      ra: {
-        type: Sequelize.INTEGER
       },
       created_at: {
         allowNull: false,
