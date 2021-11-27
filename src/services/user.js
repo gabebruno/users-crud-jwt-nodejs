@@ -25,7 +25,8 @@ class UserService {
 
     async create(userData) {
         const user = await this.user.findOne({
-            where: { email: userData.email }
+            where: { email: userData.email },
+            paranoid: false
         });
 
         if(user) {
@@ -54,6 +55,10 @@ class UserService {
 
     async destroy(id) {
         return await this.user.destroy({ where: { id : id } });
+    }
+
+    async restore(id) {
+        return await this.user.restore({ where: { id : id } });
     }
 }
 
