@@ -55,7 +55,7 @@ npm install
 npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 ```
 
-#### And for the last... open your Postman, Insomnia, VS Code, whatever and try the endpoints.
+#### And for the last... open your Postman, Insomnia, VS Code, whatever and try the endpoints, begining with register route.
 
 ** **
 
@@ -65,7 +65,7 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 **The routes defined are:**
 
     [POST]: /api/users/register  - Receive JSON body to register new user by yourself - Without authentication:
-    
+
     Body:
       {
         "name":             Required    |   String
@@ -77,23 +77,23 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 **  **
 
     [POST]: /api/login        - Receive JSON body to login with email and paswword - Without authentication:
-    
+
     Body:
       {
         "email":            Required    |   String
-        "password":         Required    |   String 
+        "password":         Required    |   String
       }
-      
+
     Return:
     {
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
     }
-      
+
 **  **
 
     - Authenticated route - Bearer Token
     [POST]: /api/users/       - Authenticated route - Receive JSON body to create user:
-    
+
     Body:
       {
         "name":             Required    |   String
@@ -102,12 +102,12 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
         "password":         Required    |   String    | Required Uppercase, Lowercase, Number and + 8 digits.
         "birthday":         Required    |   String    | Format: YYYY-MM-DD
       }
-     
+
 **  **
 
     - Authenticated route - Bearer Token
     [PUT]: /api/users/        - Authenticated route - Receive JSON body to update user:
-    
+
     Body:
       {
         "name":             Optional    |   String
@@ -116,22 +116,22 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
         "password":         Optional    |   String    | Required Uppercase, Lowercase, Number and + 8 digits.
         "birthday":         Optional    |   String    | Format: YYYY-MM-DD
       }
-   
+
 **  **
-     
+
     - Authenticated route - Bearer Token
     [POST]: /api/users/restore/{id}    - Use to restore deleted user:
     (Don't need body)
-    
+
     Return:
       User successfully restored!
 
 **  **
-    
+
     - Authenticated route - Bearer Token
     [GET]: /api/users               - Deliver two possible JSON responses, according query parameters.
     Query parameter:                - inactive=true (default false).
-    
+
     Return:
     [
       {
@@ -144,12 +144,12 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
         "updatedAt": "2021-11-27T03:26:08.000Z"
       }
     ]
-    
+
 **  **
 
     - Authenticated route - Bearer Token
     [GET]: /api/users/{id}          - Deliver a JSON response with user data:
-    
+
     Return:
     [
       {
@@ -162,15 +162,15 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
         "updatedAt": "2021-11-27T03:26:08.000Z"
       }
     ]
-    
+
 **  **
 
     - Authenticated route - Bearer Token
     [DELETE]: /api/users/{id}       - Delete an user by id:
-    
+
     Return:
           User successfully deleted!
-    
+
 
 ## Versioning
 
@@ -180,7 +180,7 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 ## Author
 
 * **Gabriel Bruno Almeida**:
-  
+
     * [GitHub](https://github.com/gabebruno)
-    
+
     * [LinkedIn](https://www.linkedin.com/in/dev-gabriel-bruno/)
