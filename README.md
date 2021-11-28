@@ -18,7 +18,7 @@ Here are the technologies used in this project.
 ## Getting started
 The recomended way is with Docker, because it's incredible, marvelous, awesome... ok, fine, i cheered up! 
 
-* First you need clone this repository! (Don't change folder's name)
+* <strong>First you need clone this repository! (Don't change folder's name)</strong>
 
 * Go to application's folder
 ```sh
@@ -34,11 +34,14 @@ cp .env.example .env
 
 
 * Now, run Docker: (If you use -d paramater, docker run in second plan, but you don't see possible errors)
+    * <p><i>Docker will run all necessary commands to up application, with database tables and seeders created.</i></p>
+
 ```sh
 docker-compose up
 ```
 <sup>This will take a while, go get some coffee!</sup>
 
+#### <i>This following steps are not necessary to do manually, but informative, in case of errors on docker execution...</i>
 * Access container and install dependencies:
 ```sh
 docker exec -it crud-api sh
@@ -52,7 +55,7 @@ npm install
 npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 ```
 
-* And for the last... open your Postman, Insomnia, VS Code, whatever and try the endpoints.
+#### And for the last... open your Postman, Insomnia, VS Code, whatever and try the endpoints.
 
 ** **
 
