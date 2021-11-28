@@ -3,34 +3,47 @@ const Op = require('sequelize').Op;
 
 class UserService {
     constructor(UserModel) {
-        this.user = UserModel;
+        this.userModel = UserModel;
     }
 
     async find(inactive) {
 
         if (inactive == 'true') {
-            let user = await this.user.findAll({
+            let users = await this.userModel.findAll({
                 where: {
                     deletedAt: {[Op.not]: null}
                 },
                 paranoid: false});
 
-            delete user.password;
-            return user;
+                users.map(function(user){
+                    delete user.dataValues.password;
+                    delete user.dataValues.deletedAt;
+                } )
+            return users;
         }
 
-        let user = await this.user.findAll();
-        delete user.password;
+        let users = await this.userModel.findAll();
 
-        return user;
+        users.map(function(user){
+            delete user.dataValues.password;
+            delete user.dataValues.deletedAt;
+        } )
+
+        return users;
     }
 
     async get(id) {
-        return await this.user.findByPk(id);
+        let user = await this.userModel.findByPk(id);
+
+        if(!user) {
+            return [];
+        }
+
+        return this.removeSensitiveParameters(user);
     }
 
     async create(userData) {
-        let user = await this.user.findOne({
+        let user = await this.userModel.findOne({
             where: { email: userData.email },
             paranoid: false
         });
@@ -41,10 +54,9 @@ class UserService {
 
         userData.password = await bcrypt.hash(userData.password, 10);
 
-        user = await this.user.create(userData);
-        delete user.password;
+        user = await this.userModel.create(userData);
 
-        return user;
+        return this.removeSensitiveParameters(user);
     }
 
     async update(id, userData) {
@@ -53,32 +65,50 @@ class UserService {
             userData.password = await bcrypt.hash(userData.password, 10);
         }
 
-        const user = await this.user.update(userData, { where: { id : id } });
+        let user = await this.userModel.update(userData, { where: { id } });
 
         if(user[0] == 0) {
             throw new Error('User not found!');
         }
 
+        user = await this.get(id);
+
         return user;
     }
 
     async destroy(id) {
-        if (!(await this.get(id)))
+
+        if ((await this.get(id)).length === 0)
         {
             throw new Error('User not found')
         }
 
-        return await this.user.destroy({ where: { id : id } });
+        return this.userModel.destroy({ where: { id } });
     }
 
     async restore(id) {
-        const user = await this.user.findOne({ where: {id : id}, paranoid: false });
+        let user = await this.userModel.findOne({ where: { id }, paranoid: false });
+
+        if(!user) {
+            throw new Error('User not found!');
+        }
+
+        if(user.dataValues.deletedAt == null) {
+            throw new Error('User isn\'t deleted!');
+        }
 
         user.setDataValue('deletedAt', null);
 
         if(!user.save({paranoid: false})) {
-            throw new Error('User not found!');
+            throw new Error('User still inactive, try again later.');
         };
+
+        return true;
+    }
+
+    async removeSensitiveParameters(user) {
+        delete user.dataValues.password;
+        delete user.dataValues.deletedAt;
 
         return user;
     }
