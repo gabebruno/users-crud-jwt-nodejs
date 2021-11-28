@@ -64,19 +64,19 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 
 **The routes defined are:**
 
-    [POST]: /api/users/register - Receive JSON body to register new user by yourself - Without authentication:
+    [POST]: /api/users/register  - Receive JSON body to register new user by yourself - Without authentication:
     
     Body:
       {
         "name":             Required    |   String
         "phone":            Required    |   String    | Format: (00) 00000-0000
         "email":            Required    |   String    | Format: email@corp.com
-        "password":         Required    |   String    | At least Uppercase, Lowercase, Number and + 8 digits.
-        "birthday":         Required    |   String    | Format: aaaa-mm-dd
+        "password":         Required    |   String    | Required Uppercase, Lowercase, Number and + 8 digits.
+        "birthday":         Required    |   String    | Format: YYYY-MM-DD
       }
 **  **
 
-    [POST]: /api/login - Receive JSON body to login with email and paswword - Without authentication:
+    [POST]: /api/login        - Receive JSON body to login with email and paswword - Without authentication:
     
     Body:
       {
@@ -92,55 +92,45 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
 **  **
 
     - Authenticated route - Bearer Token
-    [POST]: /api/users/ - Authenticated route - Receive JSON body to create user:
+    [POST]: /api/users/       - Authenticated route - Receive JSON body to create user:
     
     Body:
       {
         "name":             Required    |   String
         "phone":            Required    |   String    | Format: (00) 00000-0000
         "email":            Required    |   String    | Format: email@corp.com
-        "password":         Required    |   String    | At least Uppercase, Lowercase, Number and + 8 digits.
-        "birthday":         Required    |   String    | Format: aaaa-mm-dd
+        "password":         Required    |   String    | Required Uppercase, Lowercase, Number and + 8 digits.
+        "birthday":         Required    |   String    | Format: YYYY-MM-DD
       }
      
 **  **
 
     - Authenticated route - Bearer Token
-    [PUT]: /api/users/ - Authenticated route - Receive JSON body to update user:
+    [PUT]: /api/users/        - Authenticated route - Receive JSON body to update user:
     
     Body:
       {
-        "name":             Not Required    |   String
-        "phone":            Not Required    |   String    | Format: (00) 00000-0000
-        "email":            Not Required    |   String    | Format: email@corp.com
-        "password":         Not Required    |   String    | At least Uppercase, Lowercase, Number and + 8 digits.
-        "birthday":         Not Required    |   String    | Format: aaaa-mm-dd
+        "name":             Optional    |   String
+        "phone":            Optional    |   String    | Format: (00) 00000-0000
+        "email":            Optional    |   String    | Format: email@corp.com
+        "password":         Optional    |   String    | Required Uppercase, Lowercase, Number and + 8 digits.
+        "birthday":         Optional    |   String    | Format: YYYY-MM-DD
       }
    
 **  **
      
     - Authenticated route - Bearer Token
-    [POST]: /api/users/restore/{id} - Use to restore deleted:
+    [POST]: /api/users/restore/{id}    - Use to restore deleted user:
     (Don't need body)
     
     Return:
-    {
-      "id": 3,
-      "name": "Registrar Novo Almeida",
-      "phone": "(11)99181-8272",
-      "email": "resgistroalmeida@gmail.com",
-      "password": "$2a$10$CGBokH83LGz3yZljnSJGfumjk9mYZYytn1yC0pegxa5EPUhV..HW6",
-      "birthday": "1987-06-09T00:00:00.000Z",
-      "createdAt": "2021-11-27T05:00:18.000Z",
-      "updatedAt": "2021-11-27T05:16:18.029Z",
-      "deletedAt": null
-    }
+      User successfully restored!
 
 **  **
     
     - Authenticated route - Bearer Token
-    [GET]: /api/users       - Deliver two possible JSON responses, according query parameters.
-    Query parameter:        - inactive=true (default false).
+    [GET]: /api/users               - Deliver two possible JSON responses, according query parameters.
+    Query parameter:                - inactive=true (default false).
     
     Return:
     [
@@ -151,15 +141,14 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
         "email": "firstuser@gmail.com.br",
         "birthday": "1980-09-15T00:00:00.000Z",
         "createdAt": "2021-11-27T03:26:08.000Z",
-        "updatedAt": "2021-11-27T03:26:08.000Z",
-        "deletedAt": null
+        "updatedAt": "2021-11-27T03:26:08.000Z"
       }
     ]
     
 **  **
 
     - Authenticated route - Bearer Token
-    [GET]: /api/users/{id}       - Deliver a JSON response with user data:
+    [GET]: /api/users/{id}          - Deliver a JSON response with user data:
     
     Return:
     [
@@ -170,8 +159,7 @@ npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
         "email": "firstuser@gmail.com.br",
         "birthday": "1980-09-15T00:00:00.000Z",
         "createdAt": "2021-11-27T03:26:08.000Z",
-        "updatedAt": "2021-11-27T03:26:08.000Z",
-        "deletedAt": null
+        "updatedAt": "2021-11-27T03:26:08.000Z"
       }
     ]
     
